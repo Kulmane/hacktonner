@@ -2,785 +2,1407 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-  <title>Цифровая экосистема | Управление хозяйством и обратная связь</title>
-  <!-- Google Fonts & Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0">
+  <title>Цифровая экосистема · Семей</title>
+  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Inter, как на eGov -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <style>
-    /* ---------- Глобальные стили: сброс, переменные, базовые ---------- */
+    /* ===== СТИЛИ (без изменений, только добавим lang-switcher) ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background-color: #f6f9fc;
-      color: #0a2e4a;
+      background: #f5faff;
+      color: #003f5c;
       line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     .container {
-      max-width: 1280px;
+      max-width: 1320px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Цветовая схема: отсылка к флагу Казахстана + гос. стиль */
     :root {
-      --primary: #005A9C;      /* глубокий синий */
-      --primary-light: #3a7ca5;
-      --accent: #FECB00;       /* жёлтый — как солнце на флаге */
-      --accent-soft: #ffeeb3;
-      --gray-bg: #f1f5f9;
-      --card-white: #ffffff;
-      --text-dark: #0b3b5c;
-      --text-soft: #334e68;
-      --shadow-sm: 0 8px 20px rgba(0,0,0,0.02), 0 4px 12px rgba(0,90,156,0.08);
-      --border-radius: 24px;
-      --border-radius-sm: 16px;
+      --egov-blue: #004a7c;
+      --egov-darkblue: #003357;
+      --egov-gold: #f5c542;
+      --egov-lightgold: #ffefb9;
+      --egov-gray: #f0f7fc;
+      --egov-white: #ffffff;
+      --egov-shadow: 0 10px 25px -5px rgba(0, 53, 84, 0.1);
+      --egov-radius: 24px;
+      --egov-radius-sm: 16px;
     }
 
-    /* ---------- Типография и ссылки ---------- */
-    h1, h2, h3, h4 {
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .navbar {
+      background: var(--egov-white);
+      box-shadow: 0 6px 24px rgba(0,74,124,0.06);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 4px solid var(--egov-gold);
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
-    /* ---------- Кнопки ---------- */
-    .btn {
-      display: inline-block;
-      padding: 12px 28px;
-      border-radius: 40px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--egov-blue);
+    }
+    .logo i {
+      color: var(--egov-gold);
+      text-shadow: 0 2px 6px rgba(245,197,66,0.4);
+    }
+    .logo span {
+      font-size: 0.8rem;
       font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
+      color: #3a6e8c;
+      background: #e5f0f7;
+      padding: 4px 12px;
+      border-radius: 30px;
+    }
+
+    .main-nav {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+      font-weight: 600;
+    }
+    .main-nav li a {
+      color: #004a7c;
+      padding: 8px 0;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+      font-size: 0.98rem;
+      text-decoration: none;
+    }
+    .main-nav li a:hover,
+    .main-nav li a.active {
+      border-bottom-color: var(--egov-gold);
+      color: #002d42;
+    }
+
+    .auth-badge {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .btn {
+      padding: 10px 22px;
+      border-radius: 40px;
       border: none;
-      cursor: pointer;
-      background-color: var(--primary);
+      font-weight: 600;
+      background: var(--egov-blue);
       color: white;
-      box-shadow: 0 4px 10px rgba(0,90,156,0.2);
+      transition: 0.2s;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 14px rgba(0,74,124,0.15);
     }
     .btn i {
       margin-right: 8px;
     }
     .btn:hover {
-      background-color: #004682;
+      background: #002e4a;
       transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(0,90,156,0.25);
     }
     .btn-outline {
       background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
+      border: 2px solid var(--egov-blue);
+      color: var(--egov-blue);
       box-shadow: none;
     }
     .btn-outline:hover {
-      background: var(--primary);
+      background: var(--egov-blue);
       color: white;
-      border-color: var(--primary);
     }
-    .btn-accent {
-      background: var(--accent);
-      color: #0a2e4a;
-      box-shadow: 0 4px 12px rgba(254,203,0,0.3);
-    }
-    .btn-accent:hover {
-      background: #e5b800;
-      color: #0a2e4a;
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.8rem;
     }
 
-    /* ---------- Шапка и навигация ---------- */
-    header {
-      background-color: white;
-      border-radius: 0 0 var(--border-radius) var(--border-radius);
-      box-shadow: var(--shadow-sm);
-      padding: 16px 0;
-      margin-bottom: 40px;
-    }
-    .header-content {
+    .profile-badge {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-    .logo i {
-      color: var(--accent);
-      font-size: 2rem;
-      text-shadow: 2px 2px 0 rgba(254,203,0,0.2);
-    }
-    .logo span {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text-soft);
-      margin-left: 4px;
-      letter-spacing: 0.3px;
-    }
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 32px;
+      gap: 10px;
+      background: #eef6ff;
+      padding: 6px 18px 6px 12px;
+      border-radius: 40px;
       font-weight: 600;
-      color: var(--text-dark);
-    }
-    nav ul li a {
-      padding: 8px 0;
-      border-bottom: 3px solid transparent;
-      transition: 0.15s;
-    }
-    nav ul li a:hover {
-      border-bottom-color: var(--accent);
-      color: var(--primary);
-    }
-    .login-btn {
-      font-weight: 600;
+      color: #004a7c;
+      border: 1px solid #c2dcf0;
     }
 
-    /* ---------- Hero ---------- */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 0.8fr;
-      gap: 40px;
+    .content-area {
+      flex: 1;
+      margin: 40px 0;
+    }
+
+    .section-header {
+      display: flex;
       align-items: center;
-      margin-bottom: 64px;
-      background: linear-gradient(145deg, #ffffff 0%, #fafcff 100%);
-      padding: 48px 48px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-    }
-    .hero h1 {
-      font-size: 2.6rem;
-      line-height: 1.2;
-      margin-bottom: 24px;
-      color: #003357;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      color: #2c4e6e;
+      gap: 14px;
       margin-bottom: 32px;
-      font-weight: 400;
-      max-width: 90%;
     }
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+    .section-header i {
+      font-size: 2.2rem;
+      color: var(--egov-gold);
     }
-    .hero-image {
-      background: var(--accent-soft);
-      border-radius: 32px;
-      padding: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--primary);
-      font-size: 8rem;
-      border: 5px dashed var(--accent);
-    }
-    .hero-image i {
-      filter: drop-shadow(8px 12px 12px rgba(0,0,0,0.1));
-    }
-
-    /* ---------- Секции: общие ---------- */
-    .section-title {
+    .section-header h2 {
       font-size: 1.9rem;
       font-weight: 700;
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #003f5c;
-    }
-    .section-title i {
-      color: var(--accent);
-      font-size: 2rem;
+      color: #003357;
     }
 
-    /* Статистика */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-bottom: 64px;
-    }
-    .stat-card {
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+
+    .card {
       background: white;
-      padding: 28px 20px;
-      border-radius: var(--border-radius-sm);
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-      border-bottom: 6px solid var(--primary);
-      transition: 0.2s;
-    }
-    .stat-card:hover {
-      transform: translateY(-6px);
-    }
-    .stat-number {
-      font-size: 2.9rem;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    .stat-label {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-      color: #3a5e7a;
-    }
-
-    /* Двойная сетка: отзывы + исполнители/акимат */
-    .double-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 64px;
-    }
-
-    /* карточки отзывов */
-    .feedback-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .feedback-card {
-      background: white;
-      padding: 24px;
-      border-radius: var(--border-radius-sm);
-      box-shadow: var(--shadow-sm);
-      border-left: 8px solid var(--accent);
-    }
-    .feedback-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    .feedback-user i {
-      color: var(--primary);
-      margin-right: 8px;
-    }
-    .feedback-category {
-      background: #eef2f6;
-      padding: 4px 14px;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .feedback-text {
-      margin: 12px 0;
-      color: #1f3a4e;
-    }
-    .feedback-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .status {
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .status.work {
-      background: #fef2d6;
-      color: #9e6d0b;
-    }
-    .status.done {
-      background: #dff0d8;
-      color: #2e6b2e;
-    }
-    .status.new {
-      background: #d9eafb;
-      color: #004e8a;
-    }
-
-    /* исполнители и акимат */
-    .right-side {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-    .contractor-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .contractor-card {
-      background: white;
-      padding: 24px 16px;
-      border-radius: var(--border-radius-sm);
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-      transition: all 0.25s;
-    }
-    .contractor-card:hover {
-      background: #fcf8e7;
-    }
-    .contractor-icon {
-      font-size: 2.3rem;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-    .contractor-name {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 6px;
-    }
-    .contractor-type {
-      color: #476c85;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-    }
-    .rating {
-      color: #ffb703;
-      font-size: 1rem;
-      letter-spacing: 3px;
-      margin-bottom: 6px;
-    }
-    .rating span {
-      color: #64748b;
-      margin-left: 5px;
-      font-weight: 600;
-    }
-    .akimat-card {
-      background: linear-gradient(105deg, #ffffff 0%, #f6fafe 100%);
-      border-radius: var(--border-radius-sm);
+      border-radius: var(--egov-radius);
       padding: 28px 24px;
-      border: 2px solid var(--accent);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .akimat-card h4 {
-      font-size: 1.5rem;
-      display: flex;
-      gap: 12px;
-      color: var(--primary);
-    }
-    .akimat-card p {
-      color: #2b4a5e;
-    }
-    .map-placeholder {
-      background: #e2e8f0;
-      border-radius: 20px;
-      padding: 20px;
-      text-align: center;
-      color: #1e4a6b;
-      font-weight: 600;
-      border: 2px dashed var(--primary-light);
-    }
-    .map-placeholder i {
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    /* форма обращения */
-    .feedback-form-section {
-      background: white;
-      border-radius: var(--border-radius);
-      padding: 48px 48px;
-      margin-bottom: 64px;
-      box-shadow: var(--shadow-sm);
-      border-top: 10px solid var(--accent);
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-    .form-group {
-      margin-bottom: 24px;
-    }
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #0a3d62;
-    }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 16px 20px;
-      border: 1px solid #cbd5e0;
-      border-radius: 20px;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      background: #fafeff;
+      box-shadow: var(--egov-shadow);
       transition: 0.2s;
+      border-bottom: 5px solid transparent;
     }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--primary);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(0,90,156,0.1);
+    .card:hover {
+      border-bottom-color: var(--egov-gold);
     }
-    .form-group textarea {
-      resize: vertical;
-      min-height: 130px;
-    }
-    .full-width {
-      grid-column: span 2;
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #00426a;
     }
 
-    /* подвал */
-    footer {
-      background: white;
-      border-radius: var(--border-radius) var(--border-radius) 0 0;
-      padding: 48px 32px 32px;
-      margin-top: 20px;
-      box-shadow: 0 -8px 20px rgba(0,0,0,0.02);
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1.5fr;
-      gap: 40px;
-    }
-    .footer-logo {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 16px;
-    }
-    .footer-logo i {
-      color: var(--accent);
-    }
-    .footer-about {
-      color: #3a5a72;
-      line-height: 1.6;
-    }
-    .footer-links h5 {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      color: #003f5c;
-    }
-    .footer-links ul {
+    .list-menu {
       list-style: none;
     }
-    .footer-links li {
-      margin-bottom: 12px;
-    }
-    .footer-links a {
-      color: #2b5c7c;
+    .list-menu li {
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #1e4f66;
       font-weight: 500;
     }
-    .footer-links a:hover {
-      color: var(--primary);
-      border-bottom: 2px solid var(--accent);
-    }
-    .footer-bottom {
-      text-align: center;
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid #dce7f0;
-      color: #4c6f87;
+    .list-menu i {
+      width: 22px;
+      color: var(--egov-gold);
     }
 
-    /* адаптивность */
-    @media (max-width: 1000px) {
-      .hero { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: repeat(2,1fr); }
-      .double-grid { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .full-width { grid-column: span 1; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+    .badge {
+      background: #f0f7fe;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #004a7c;
     }
-    @media (max-width: 680px) {
-      .header-content { flex-direction: column; gap: 20px; }
-      nav ul { flex-wrap: wrap; justify-content: center; gap: 16px; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .contractor-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .hero { padding: 32px 24px; }
-      .hero h1 { font-size: 2rem; }
+    .badge-success { background: #dff0d8; color: #2e6b2e; }
+    .badge-warning { background: #fff3cd; color: #856404; }
+    .badge-danger { background: #f8dddd; color: #a94442; }
+
+    .mock-map {
+      background: #e2f0f9;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      border: 2px dashed var(--egov-blue);
+      color: #005680;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mock-map:hover {
+      background: #cbe6f5;
+    }
+
+    .fake-input {
+      background: #f6fafe;
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid #cde0ea;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,53,84,0.7);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 40px;
+      border-radius: 32px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+    }
+
+    .notification-bell {
+      position: relative;
+      cursor: pointer;
+    }
+    .notification-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #e03a3a;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .employee-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5eff5;
+    }
+
+    .rating-stars i {
+      color: #ffb703;
+      margin-right: 2px;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 8px;
+      margin-right: 16px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--egov-blue);
+      color: var(--egov-blue);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--egov-blue);
+      color: white;
+    }
+
+    @media (max-width: 1000px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .navbar-inner { flex-direction: column; gap: 15px; }
+    }
+    @media (max-width: 700px) {
+      .main-nav { flex-wrap: wrap; justify-content: center; gap: 16px; }
+    }
+
+    .footer {
+      background: white;
+      border-radius: 40px 40px 0 0;
+      padding: 40px 0 20px;
+      margin-top: 40px;
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.02);
     }
   </style>
 </head>
 <body>
-  <!-- ШАПКА / НАВИГАЦИЯ -->
-  <header>
-    <div class="container header-content">
-      <div class="logo">
-        <i class="fas fa-leaf"></i> UDE<span>госпрограмма</span>
+
+<!-- ========== МОДАЛКА ВХОДА/РЕГИСТРАЦИИ ========= -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h3 id="modalTitle" style="color: #004a7c; font-size: 1.7rem; font-weight: 700;">Вход / Регистрация</h3>
+      <i class="fas fa-times" style="font-size: 1.6rem; color: #6c8fa0; cursor: pointer;" onclick="closeModal()"></i>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <div style="display: flex; gap: 10px; border-bottom: 2px solid #eaf0f5; padding-bottom: 10px;">
+        <button id="loginTabBtn" class="btn" style="flex:1;" onclick="showLoginForm()">Вход</button>
+        <button id="registerTabBtn" class="btn-outline" style="flex:1;" onclick="showRegisterForm()">Регистрация</button>
       </div>
-      <nav>
-        <ul>
-          <li><a href="#">Главная</a></li>
-          <li><a href="#">Обращения</a></li>
-          <li><a href="#">Исполнители</a></li>
-          <li><a href="#">Акимат</a></li>
-          <li><a href="#">Статистика</a></li>
+      <div id="loginForm">
+        <div class="fake-input" style="margin-bottom: 16px;">
+          <i class="fas fa-id-card"></i>
+          <input type="text" id="iinInput" placeholder="ИИН (12 цифр)" style="border: none; background: transparent; width: 100%; outline: none;" maxlength="12">
+        </div>
+        <div class="fake-input" style="margin-bottom: 16px;">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="passwordInput" placeholder="Пароль" style="border: none; background: transparent; width: 100%; outline: none;">
+        </div>
+        <button class="btn" style="width:100%;" onclick="loginByIIN()"><i class="fas fa-arrow-right-to-bracket"></i> Войти</button>
+        <div style="margin-top: 16px; text-align: center; color: #3a6e8c;" id="demoAccountsHint">
+          <i class="fas fa-shield-alt"></i> Тест: 100304223455 / 123 (Аким), 200105123456 / 123 (Исполнитель), 880101345678 / 123 (Житель)
+        </div>
+      </div>
+      <div id="registerForm" style="display: none;">
+        <div class="fake-input" style="margin-bottom: 16px;">
+          <i class="fas fa-id-card"></i>
+          <input type="text" id="regIIN" placeholder="ИИН (12 цифр)" style="border: none; background: transparent; width: 100%; outline: none;" maxlength="12">
+        </div>
+        <div class="fake-input" style="margin-bottom: 16px;">
+          <i class="fas fa-user"></i>
+          <input type="text" id="regName" placeholder="ФИО" style="border: none; background: transparent; width: 100%; outline: none;">
+        </div>
+        <div class="fake-input" style="margin-bottom: 16px;">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="regPassword" placeholder="Пароль" style="border: none; background: transparent; width: 100%; outline: none;">
+        </div>
+        <button class="btn" style="width:100%; background: #0f6c4b;" onclick="registerCitizen()"><i class="fas fa-user-plus"></i> Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== МОДАЛКА ДОБАВЛЕНИЯ ОТЗЫВА С КАРТОЙ ========= -->
+<div id="reviewModal" class="modal">
+  <div class="modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h3 id="reviewModalTitle" style="color: #004a7c; font-size: 1.7rem; font-weight: 700;">Оставить отзыв на карте</h3>
+      <i class="fas fa-times" style="font-size: 1.6rem; color: #6c8fa0; cursor: pointer;" onclick="closeReviewModal()"></i>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="mock-map" onclick="selectRandomLocation()">
+        <i class="fas fa-map-marked-alt" style="font-size: 2.5rem;"></i>
+        <p id="selectedLocationText" style="margin-top: 10px; font-weight: 600;">Нажмите на карту, чтобы выбрать место</p>
+        <input type="hidden" id="reviewLat" value="">
+        <input type="hidden" id="reviewLng" value="">
+      </div>
+      <div class="fake-input">
+        <i class="fas fa-pen"></i>
+        <input type="text" id="reviewText" placeholder="Текст отзыва" style="border: none; background: transparent; width: 100%; outline: none;">
+      </div>
+      <div class="fake-input">
+        <i class="fas fa-camera"></i>
+        <input type="file" id="reviewPhoto" accept="image/*" style="border: none; background: transparent; width: 100%;">
+      </div>
+      <button class="btn" onclick="submitReview()"><i class="fas fa-paper-plane"></i> Отправить отзыв</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== МОДАЛКА УВЕДОМЛЕНИЙ ========= -->
+<div id="notificationsModal" class="modal">
+  <div class="modal-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h3 id="notificationsModalTitle" style="color: #004a7c; font-size: 1.7rem; font-weight: 700;">Уведомления</h3>
+      <i class="fas fa-times" style="font-size: 1.6rem; color: #6c8fa0; cursor: pointer;" onclick="closeNotificationsModal()"></i>
+    </div>
+    <div id="notificationsList" style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Динамически загружается -->
+    </div>
+  </div>
+</div>
+
+<!-- ========== ШАПКА ========= -->
+<header class="navbar">
+  <div class="container navbar-inner">
+    <div class="logo">
+      <i class="fas fa-tree"></i> Digital Ecosystem <span>Семей / e‑Akimat</span>
+    </div>
+    <ul class="main-nav" id="navMenu"></ul>
+    <div class="auth-badge" id="authBlock"></div>
+  </div>
+</header>
+
+<!-- ========== ОСНОВНОЙ КОНТЕНТ ========= -->
+<main class="content-area container" id="dynamicContent"></main>
+
+<!-- ========== ФУТЕР ========= -->
+<footer class="footer">
+  <div class="container">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
+      <div style="max-width: 300px;">
+        <div class="logo" style="margin-bottom: 20px;">
+          <i class="fas fa-leaf"></i> Egov.House
+        </div>
+        <p id="footerDescription" style="color: #3a6579;">Полная экосистема: карта отзывов, управление персоналом, уведомления. Госпрограмма «Цифровой Казахстан»</p>
+      </div>
+      <div>
+        <h5 id="footerContactsTitle" style="font-size: 1.1rem; margin-bottom: 20px; color: #003357;">Контакты</h5>
+        <ul class="list-menu" style="list-style: none;">
+          <li><i class="fas fa-phone"></i> 1414 (Акимат Семей)</li>
+          <li><i class="fas fa-envelope"></i> info@semey-akimat.kz</li>
         </ul>
-      </nav>
-      <a href="#" class="btn-outline btn"><i class="fas fa-user-circle"></i> Войти</a>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- ГЕРОЙ: цифровая экосистема -->
-    <section class="hero">
-      <div>
-        <h1>Цифровая экосистема управления хозяйством</h1>
-        <p><i class="fas fa-flag-checkered" style="color: var(--accent);"></i> Госпрограмма: отзывы граждан → исполнителям ЖКХ и акимату. Прозрачность, скорость, результат.</p>
-        <div class="hero-buttons">
-          <a href="#" class="btn"><i class="fas fa-pen-to-square"></i> Оставить отзыв</a>
-          <a href="#" class="btn-outline"><i class="fas fa-chart-simple"></i> Аналитика</a>
-        </div>
-      </div>
-      <div class="hero-image">
-        <i class="fas fa-city"></i>
-      </div>
-    </section>
-
-    <!-- СТАТИСТИКА: ключевые показатели -->
-    <section>
-      <h2 class="section-title"><i class="fas fa-chart-line"></i> Экосистема в цифрах</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">2 846</div>
-          <div class="stat-label">всего обращений</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">1 932</div>
-          <div class="stat-label">решено</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">648</div>
-          <div class="stat-label">в работе</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">4.7</div>
-          <div class="stat-label">средний рейтинг</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ДВОЙНОЙ БЛОК: последние отзывы + исполнители и акимат -->
-    <div class="double-grid">
-      <!-- левая часть: отзывы граждан -->
-      <div>
-        <h2 class="section-title" style="font-size: 1.7rem;"><i class="fas fa-comment-dots"></i> Последние отзывы</h2>
-        <div class="feedback-list">
-          <!-- карточка 1 -->
-          <div class="feedback-card">
-            <div class="feedback-header">
-              <span class="feedback-user"><i class="fas fa-user"></i> Азамат К.</span>
-              <span class="feedback-category"><i class="fas fa-wrench"></i> Отопление</span>
-            </div>
-            <div class="feedback-text">
-              Третьи сутки нет отопления в доме 45 по ул. Абая. Теплосети говорят, что ремонтируют, но тишина.
-            </div>
-            <div class="feedback-footer">
-              <span class="status work"><i class="fas fa-clock"></i> В работе</span>
-              <span style="color:#476c85;"><i class="fas fa-calendar"></i> 11.02.2026</span>
-            </div>
-          </div>
-          <!-- карточка 2 -->
-          <div class="feedback-card">
-            <div class="feedback-header">
-              <span class="feedback-user"><i class="fas fa-user"></i> Динара М.</span>
-              <span class="feedback-category"><i class="fas fa-trash"></i> Вывоз мусора</span>
-            </div>
-            <div class="feedback-text">
-              Контейнерная площадка у дома 12 переполнена уже неделю. Запах, антисанитария. Исполнитель не реагирует.
-            </div>
-            <div class="feedback-footer">
-              <span class="status new"><i class="fas fa-flag"></i> Новое</span>
-              <span style="color:#476c85;"><i class="fas fa-calendar"></i> 12.02.2026</span>
-            </div>
-          </div>
-          <!-- карточка 3 -->
-          <div class="feedback-card">
-            <div class="feedback-header">
-              <span class="feedback-user"><i class="fas fa-user"></i> Руслан Т.</span>
-              <span class="feedback-category"><i class="fas fa-road"></i> Дороги</span>
-            </div>
-            <div class="feedback-text">
-              Яма во дворе по ул. Желтоксан, 67 — повредил подвеску. Подрядчик «АлматыЖол» отказывается компенсировать.
-            </div>
-            <div class="feedback-footer">
-              <span class="status done"><i class="fas fa-check-circle"></i> Передано в акимат</span>
-              <span style="color:#476c85;"><i class="fas fa-calendar"></i> 10.02.2026</span>
-            </div>
-          </div>
-          <a href="#" style="font-weight: 600; color: var(--primary); align-self: flex-end;">Все отзывы →</a>
-        </div>
-      </div>
-
-      <!-- правая часть: рейтинг исполнителей и карточка акимата -->
-      <div class="right-side">
-        <div>
-          <h2 class="section-title" style="font-size: 1.7rem;"><i class="fas fa-medal"></i> ТОП исполнителей</h2>
-          <div class="contractor-grid">
-            <div class="contractor-card">
-              <div class="contractor-icon"><i class="fas fa-hard-hat"></i></div>
-              <div class="contractor-name">Астана Су Арнасы</div>
-              <div class="contractor-type">Водоснабжение</div>
-              <div class="rating">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                <span>4.6</span>
-              </div>
-            </div>
-            <div class="contractor-card">
-              <div class="contractor-icon"><i class="fas fa-bolt"></i></div>
-              <div class="contractor-name">АлматыЭнергоСбыт</div>
-              <div class="contractor-type">Электроснабжение</div>
-              <div class="rating">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                <span>4.2</span>
-              </div>
-            </div>
-            <div class="contractor-card">
-              <div class="contractor-icon"><i class="fas fa-truck"></i></div>
-              <div class="contractor-name">Тазалык 2025</div>
-              <div class="contractor-type">Уборка и вывоз ТБО</div>
-              <div class="rating">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <span>4.9</span>
-              </div>
-            </div>
-            <div class="contractor-card">
-              <div class="contractor-icon"><i class="fas fa-fire"></i></div>
-              <div class="contractor-name">КазТеплоКом</div>
-              <div class="contractor-type">Теплоснабжение</div>
-              <div class="rating">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
-                <span>3.8</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- карточка акимата + карта проблем -->
-        <div class="akimat-card">
-          <h4><i class="fas fa-landmark" style="color: #005A9C;"></i> Акимат города</h4>
-          <p style="font-size: 1.05rem;"><i class="fas fa-check-circle" style="color: #27ae60;"></i> 214 обращений на контроле акимата за последние 7 дней.</p>
-          <p><i class="fas fa-clock"></i> Среднее время ответа: <strong>1,8 дня</strong> (исполнители) / <strong>4,2 часа</strong> (акимат).</p>
-          <div class="map-placeholder">
-            <i class="fas fa-map-location-dot"></i>
-            <p style="margin-top: 8px;">Карта проблем района: 23 активные заявки</p>
-            <p style="font-size: 0.9rem; background: white; padding: 8px; border-radius: 50px; margin-top: 12px;">
-              <i class="fas fa-location-dot" style="color: #c0392b;"></i> Акимат уже отреагировал на 9 обращений
-            </p>
-          </div>
-          <a href="#" class="btn btn-accent" style="align-self: flex-start; margin-top: 8px;"><i class="fas fa-paper-plane"></i> Написать в акимат</a>
-        </div>
       </div>
     </div>
+    <hr style="border: 1px solid #e4edf2; margin: 32px 0 20px;">
+    <p style="text-align: center; color: #3e6a80;" id="footerCopyright">© 2026 – Цифровая экосистема г. Семей. Все данные сохраняются в localStorage.</p>
+  </div>
+</footer>
 
-    <!-- ФОРМА ОБРАТНОЙ СВЯЗИ: для граждан -->
-    <section class="feedback-form-section">
-      <h2 class="section-title" style="margin-bottom: 40px;"><i class="fas fa-circle-plus"></i> Оставить обращение</h2>
-      <div class="form-grid">
-        <div class="form-group">
-          <label><i class="fas fa-user"></i> ФИО (или псевдоним)</label>
-          <input type="text" placeholder="Иванов Иван">
+<script>
+  // ========== ПЕРЕВОДЫ (ЛОКАЛИЗАЦИЯ) ==========
+  const translations = {
+    ru: {
+      // Общие
+      'app.title': 'Цифровая экосистема',
+      'app.subtitle': 'Семей / e‑Akimat',
+      'menu.home': 'Главная',
+      'menu.profile': 'Личный кабинет',
+      'menu.akimat': 'Акимат/Админ',
+      'menu.executors': 'Исполнители',
+      'menu.citizens': 'Жители',
+      'menu.map': 'Карта отзывов',
+      'button.login': 'Вход',
+      'button.logout': 'Выйти',
+      'button.submit': 'Отправить',
+      'button.cancel': 'Отмена',
+      'button.register': 'Зарегистрироваться',
+      'button.save': 'Сохранить',
+      'button.add': 'Добавить',
+      'button.delete': 'Удалить',
+      'button.approve': 'Правдивый',
+      'button.rate': 'Оценить',
+      'button.respond': 'Ответить',
+      'button.send': 'Отправить',
+      'button.choose': 'Выбрать',
+      'button.close': 'Закрыть',
+      'badge.active': 'Активный',
+      'badge.inactive': 'Неактивный',
+      'badge.new': 'Новая',
+      'badge.inProgress': 'В работе',
+      'badge.completed': 'Выполнено',
+      
+      // Навигация
+      'nav.home': 'Главная',
+      'nav.profile': 'Личный кабинет',
+      'nav.akimat': 'Акимат/Админ',
+      'nav.executors': 'Исполнители',
+      'nav.citizens': 'Жители',
+      'nav.map': 'Карта отзывов',
+      
+      // Главная страница
+      'home.title': 'Город Семей',
+      'home.population': 'Население',
+      'home.routes': 'Маршрутов',
+      'home.clinics': 'Поликлиник',
+      'home.reviews': 'Отзывов',
+      'home.transport': 'Транспорт',
+      'home.route1': 'Маршрут №1: Восход – Центр',
+      'home.route2': 'Маршрут №10: Дачный – Аэропорт',
+      'home.healthcare': 'Здравоохранение',
+      'home.hotline': 'Горячая линия 103',
+      'home.doctor': 'Запись к врачу через eGov',
+      'home.events': 'Мероприятия',
+      'home.event1': '25.02 — Концерт',
+      'home.event2': '01.03 — Выставка',
+      'home.event3': '05.03 — Велопробег',
+      'home.loginHint': 'Войдите, чтобы оставлять отзывы, управлять и получать уведомления.',
+      
+      // Личный кабинет
+      'profile.title': 'Личный кабинет',
+      'profile.myData': 'Мои данные',
+      'profile.iin': 'ИИН',
+      'profile.fullName': 'ФИО',
+      'profile.role': 'Роль',
+      'profile.notifications': 'Последние уведомления',
+      'profile.noNotifications': 'Нет уведомлений',
+      'profile.points': 'Баллы активности',
+      'profile.changePassword': 'Сменить пароль',
+      
+      // Акимат
+      'akimat.title': 'Панель акима',
+      'akimat.employees': 'Управление сотрудниками',
+      'akimat.position': 'Должность',
+      'akimat.rating': 'Рейтинг',
+      'akimat.promote': 'Повысить',
+      'akimat.demote': 'Понизить',
+      'akimat.fire': 'Уволить',
+      'akimat.addEmployee': 'Назначить нового',
+      'akimat.broadcast': 'Общее обращение к жителям',
+      'akimat.messagePlaceholder': 'Текст обращения...',
+      'akimat.sendToAll': 'Отправить всем',
+      'akimat.moderation': 'Модерация отзывов',
+      'akimat.goToModeration': 'Перейти к модерации',
+      
+      // Исполнители
+      'executors.title': 'Панель исполнителя',
+      'executors.respond': 'Ответить на заявку',
+      'executors.selectReview': '-- Выберите заявку --',
+      'executors.responsePlaceholder': 'Текст ответа...',
+      'executors.sendResponse': 'Отправить ответ жителю',
+      'executors.appeal': 'Обращение к акиму',
+      'executors.appealPlaceholder': 'Текст обращения...',
+      'executors.sendToAkim': 'Отправить акиму',
+      
+      // Жители
+      'citizens.title': 'Портал жителя',
+      'citizens.addReview': 'Оставить отзыв на карте',
+      'citizens.addButton': 'Добавить отзыв',
+      'citizens.myRequests': 'Мои заявки',
+      'citizens.noRequests': 'У вас пока нет заявок.',
+      'citizens.status': 'Статус',
+      'citizens.points': 'Баллы',
+      
+      // Карта отзывов
+      'map.title': 'Карта отзывов',
+      'map.allReviews': 'Все отзывы',
+      'map.noReviews': 'Пока нет отзывов',
+      'map.photoAttached': 'Фото прикреплено',
+      'map.points': 'Баллы',
+      'map.truthful': 'Правдивый (+10 баллов)',
+      'map.delete': 'Удалить',
+      'map.rate': 'Оценить',
+      'map.clickToAdd': 'Нажмите, чтобы добавить отзыв',
+      'map.selectLocation': 'Нажмите на карту, чтобы выбрать место',
+      'map.reviewText': 'Текст отзыва',
+      
+      // Модалки
+      'modal.authTitle': 'Вход / Регистрация',
+      'modal.login': 'Вход',
+      'modal.register': 'Регистрация',
+      'modal.iin': 'ИИН (12 цифр)',
+      'modal.password': 'Пароль',
+      'modal.fullName': 'ФИО',
+      'modal.demoHint': 'Тест: 100304223455 / 123 (Аким), 200105123456 / 123 (Исполнитель), 880101345678 / 123 (Житель)',
+      'modal.reviewTitle': 'Оставить отзыв на карте',
+      'modal.notificationsTitle': 'Уведомления',
+      
+      // Уведомления
+      'notifications.markRead': '✓ Прочитано',
+      'notifications.empty': 'Нет уведомлений',
+      
+      // Футер
+      'footer.description': 'Полная экосистема: карта отзывов, управление персоналом, уведомления. Госпрограмма «Цифровой Казахстан»',
+      'footer.contacts': 'Контакты',
+      'footer.copyright': '© 2026 – Цифровая экосистема г. Семей. Все данные сохраняются в localStorage.',
+      
+      // Разное
+      'language': 'Язык',
+      'ru': 'Рус',
+      'kk': 'Қаз',
+      'points': 'баллов',
+      'rating': 'рейтинг',
+      'status': 'Статус',
+      'active': 'активен',
+      'inactive': 'неактивен',
+      'yes': 'Да',
+      'no': 'Нет',
+      'save': 'Сохранить',
+      'cancel': 'Отмена',
+    },
+    kk: {
+      // Общие
+      'app.title': 'Цифрлық экожүйе',
+      'app.subtitle': 'Семей / e‑Akimat',
+      'menu.home': 'Басты бет',
+      'menu.profile': 'Жеке кабинет',
+      'menu.akimat': 'Әкімдік',
+      'menu.executors': 'Орындаушылар',
+      'menu.citizens': 'Тұрғындар',
+      'menu.map': 'Пікірлер картасы',
+      'button.login': 'Кіру',
+      'button.logout': 'Шығу',
+      'button.submit': 'Жіберу',
+      'button.cancel': 'Болдырмау',
+      'button.register': 'Тіркелу',
+      'button.save': 'Сақтау',
+      'button.add': 'Қосу',
+      'button.delete': 'Жою',
+      'button.approve': 'Шынайы',
+      'button.rate': 'Бағалау',
+      'button.respond': 'Жауап беру',
+      'button.send': 'Жіберу',
+      'button.choose': 'Таңдау',
+      'button.close': 'Жабу',
+      'badge.active': 'Белсенді',
+      'badge.inactive': 'Белсенді емес',
+      'badge.new': 'Жаңа',
+      'badge.inProgress': 'Орындалуда',
+      'badge.completed': 'Орындалды',
+      
+      // Навигация
+      'nav.home': 'Басты бет',
+      'nav.profile': 'Жеке кабинет',
+      'nav.akimat': 'Әкімдік',
+      'nav.executors': 'Орындаушылар',
+      'nav.citizens': 'Тұрғындар',
+      'nav.map': 'Пікірлер картасы',
+      
+      // Главная страница
+      'home.title': 'Семей қаласы',
+      'home.population': 'Халық саны',
+      'home.routes': 'Маршруттар',
+      'home.clinics': 'Емханалар',
+      'home.reviews': 'Пікірлер',
+      'home.transport': 'Қоғамдық көлік',
+      'home.route1': '№1 маршрут: Восход – Орталық',
+      'home.route2': '№10 маршрут: Дачный – Әуежай',
+      'home.healthcare': 'Денсаулық сақтау',
+      'home.hotline': '103 жедел желі',
+      'home.doctor': 'eGov арқылы дәрігерге жазылу',
+      'home.events': 'Іс-шаралар',
+      'home.event1': '25.02 — Концерт',
+      'home.event2': '01.03 — Көрме',
+      'home.event3': '05.03 — Веложарыс',
+      'home.loginHint': 'Пікір қалдыру, басқару және хабарлама алу үшін кіріңіз.',
+      
+      // Личный кабинет
+      'profile.title': 'Жеке кабинет',
+      'profile.myData': 'Менің деректерім',
+      'profile.iin': 'ЖСН',
+      'profile.fullName': 'Аты-жөні',
+      'profile.role': 'Рөл',
+      'profile.notifications': 'Соңғы хабарламалар',
+      'profile.noNotifications': 'Хабарламалар жоқ',
+      'profile.points': 'Белсенділік балдары',
+      'profile.changePassword': 'Құпиясөзді өзгерту',
+      
+      // Акимат
+      'akimat.title': 'Әкім панелі',
+      'akimat.employees': 'Қызметкерлерді басқару',
+      'akimat.position': 'Лауазымы',
+      'akimat.rating': 'Рейтинг',
+      'akimat.promote': 'Жоғарылату',
+      'akimat.demote': 'Төмендету',
+      'akimat.fire': 'Жұмыстан шығару',
+      'akimat.addEmployee': 'Жаңа қызметкер тағайындау',
+      'akimat.broadcast': 'Тұрғындарға жалпы үндеу',
+      'akimat.messagePlaceholder': 'Үндеу мәтіні...',
+      'akimat.sendToAll': 'Барлығына жіберу',
+      'akimat.moderation': 'Пікірлер модерациясы',
+      'akimat.goToModeration': 'Модерацияға өту',
+      
+      // Исполнители
+      'executors.title': 'Орындаушы панелі',
+      'executors.respond': 'Өтінішке жауап беру',
+      'executors.selectReview': '-- Өтінішті таңдаңыз --',
+      'executors.responsePlaceholder': 'Жауап мәтіні...',
+      'executors.sendResponse': 'Тұрғынға жауап жіберу',
+      'executors.appeal': 'Әкімге үндеу',
+      'executors.appealPlaceholder': 'Үндеу мәтіні...',
+      'executors.sendToAkim': 'Әкімге жіберу',
+      
+      // Жители
+      'citizens.title': 'Тұрғын порталы',
+      'citizens.addReview': 'Картада пікір қалдыру',
+      'citizens.addButton': 'Пікір қосу',
+      'citizens.myRequests': 'Менің өтініштерім',
+      'citizens.noRequests': 'Сізде әзірге өтініштер жоқ.',
+      'citizens.status': 'Күйі',
+      'citizens.points': 'Балдар',
+      
+      // Карта отзывов
+      'map.title': 'Пікірлер картасы',
+      'map.allReviews': 'Барлық пікірлер',
+      'map.noReviews': 'Әзірге пікірлер жоқ',
+      'map.photoAttached': 'Фото тіркелген',
+      'map.points': 'Балдар',
+      'map.truthful': 'Шынайы (+10 балл)',
+      'map.delete': 'Жою',
+      'map.rate': 'Бағалау',
+      'map.clickToAdd': 'Пікір қосу үшін басыңыз',
+      'map.selectLocation': 'Орынды таңдау үшін картаны басыңыз',
+      'map.reviewText': 'Пікір мәтіні',
+      
+      // Модалки
+      'modal.authTitle': 'Кіру / Тіркелу',
+      'modal.login': 'Кіру',
+      'modal.register': 'Тіркелу',
+      'modal.iin': 'ЖСН (12 сан)',
+      'modal.password': 'Құпиясөз',
+      'modal.fullName': 'Аты-жөні',
+      'modal.demoHint': 'Тест: 100304223455 / 123 (Әкім), 200105123456 / 123 (Орындаушы), 880101345678 / 123 (Тұрғын)',
+      'modal.reviewTitle': 'Картада пікір қалдыру',
+      'modal.notificationsTitle': 'Хабарламалар',
+      
+      // Уведомления
+      'notifications.markRead': '✓ Оқылды',
+      'notifications.empty': 'Хабарламалар жоқ',
+      
+      // Футер
+      'footer.description': 'Толық экожүйе: пікірлер картасы, қызметкерлерді басқару, хабарламалар. «Цифрлық Қазақстан» мемлекеттік бағдарламасы',
+      'footer.contacts': 'Байланыс',
+      'footer.copyright': '© 2026 – Семей қ. Цифрлық экожүйесі. Барлық деректер localStorage сақталады.',
+      
+      // Разное
+      'language': 'Тіл',
+      'ru': 'Рус',
+      'kk': 'Қаз',
+      'points': 'балл',
+      'rating': 'рейтинг',
+      'status': 'Күйі',
+      'active': 'белсенді',
+      'inactive': 'белсенді емес',
+      'yes': 'Иә',
+      'no': 'Жоқ',
+      'save': 'Сақтау',
+      'cancel': 'Болдырмау',
+    }
+  };
+
+  // Текущий язык
+  let currentLang = localStorage.getItem('lang') || 'ru';
+
+  // Функция перевода
+  function t(key) {
+    return translations[currentLang]?.[key] || translations['ru'][key] || key;
+  }
+
+  // Установка языка и обновление интерфейса
+  function setLanguage(lang) {
+    if (translations[lang]) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      // Обновляем все тексты на странице
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = t(key);
+      });
+      // Перерисовываем динамический контент
+      renderNavigation();
+      renderAuthBlock();
+      const activeSection = document.querySelector('.nav-link.active')?.dataset.section || 'home';
+      switchSection(activeSection);
+      // Обновляем заголовки модалок
+      updateModalTitles();
+    }
+  }
+
+  // Обновление заголовков модалок
+  function updateModalTitles() {
+    const modalTitle = document.getElementById('modalTitle');
+    if (modalTitle) modalTitle.textContent = t('modal.authTitle');
+    const reviewModalTitle = document.getElementById('reviewModalTitle');
+    if (reviewModalTitle) reviewModalTitle.textContent = t('modal.reviewTitle');
+    const notificationsModalTitle = document.getElementById('notificationsModalTitle');
+    if (notificationsModalTitle) notificationsModalTitle.textContent = t('modal.notificationsTitle');
+    const demoAccountsHint = document.getElementById('demoAccountsHint');
+    if (demoAccountsHint) demoAccountsHint.innerHTML = `<i class="fas fa-shield-alt"></i> ${t('modal.demoHint')}`;
+    const footerDescription = document.getElementById('footerDescription');
+    if (footerDescription) footerDescription.textContent = t('footer.description');
+    const footerContactsTitle = document.getElementById('footerContactsTitle');
+    if (footerContactsTitle) footerContactsTitle.textContent = t('footer.contacts');
+    const footerCopyright = document.getElementById('footerCopyright');
+    if (footerCopyright) footerCopyright.textContent = t('footer.copyright');
+  }
+
+  // ========== ИНИЦИАЛИЗАЦИЯ БАЗЫ ДАННЫХ (localStorage) ==========
+  function initDatabase() {
+    // Пользователи
+    if (!localStorage.getItem('users')) {
+      const defaultUsers = [
+        { iin: "100304223455", password: "123", role: "akim", name: "Нурсултан А.", avatar: "👤" },
+        { iin: "200105123456", password: "123", role: "ispolnitel", name: "Берик К.", avatar: "🔧" },
+        { iin: "880101345678", password: "123", role: "citizen", name: "Айгуль М.", avatar: "🏠" },
+        { iin: "900202112233", password: "123", role: "citizen", name: "Руслан Т.", avatar: "🏠" },
+        { iin: "800505441122", password: "123", role: "ispolnitel", name: "АлматыЖол", avatar: "🚧" }
+      ];
+      localStorage.setItem('users', JSON.stringify(defaultUsers));
+    }
+
+    // СОТРУДНИКИ (для управления акимом)
+    if (!localStorage.getItem('employees')) {
+      const defaultEmployees = [
+        { id: 1, name: "Серик Абишев", position: "Бригадир", status: "active", rating: 4.5 },
+        { id: 2, name: "Айнур Сагинтаева", position: "Мастер ЖКХ", status: "active", rating: 4.8 },
+        { id: 3, name: "Бахытжан Темиров", position: "Рабочий", status: "active", rating: 4.0 },
+        { id: 4, name: "Гульмира Ержанова", position: "Инженер", status: "inactive" }
+      ];
+      localStorage.setItem('employees', JSON.stringify(defaultEmployees));
+    }
+
+    // ЗАЯВКИ/ОТЗЫВЫ
+    if (!localStorage.getItem('reviews')) {
+      const defaultReviews = [
+        { id: 1, userId: "880101345678", userName: "Айгуль М.", lat: 50.411, lng: 80.227, text: "Яма на дороге ул. Абая", photo: null, rating: 0, points: 0, status: "active", date: "2026-02-20" },
+        { id: 2, userId: "900202112233", userName: "Руслан Т.", lat: 50.423, lng: 80.250, text: "Нет освещения во дворе", photo: null, rating: 2, points: 10, status: "active", date: "2026-02-21" }
+      ];
+      localStorage.setItem('reviews', JSON.stringify(defaultReviews));
+    }
+
+    // УВЕДОМЛЕНИЯ
+    if (!localStorage.getItem('notifications')) {
+      const defaultNotifs = [
+        { id: 1, from: "Система", to: "all", role: null, text: "Добро пожаловать в цифровую экосистему Семея!", date: "2026-02-22", read: false },
+        { id: 2, from: "Аким Нурсултан А.", to: "citizen", role: "citizen", text: "Уважаемые жители! 25 февраля состоится субботник.", date: "2026-02-22", read: false }
+      ];
+      localStorage.setItem('notifications', JSON.stringify(defaultNotifs));
+    }
+  }
+
+  // ========== ГЛОБАЛЬНЫЕ ФУНКЦИИ РАБОТЫ С БД ==========
+  function getUsers() { return JSON.parse(localStorage.getItem('users')) || []; }
+  function saveUsers(users) { localStorage.setItem('users', JSON.stringify(users)); }
+  function getEmployees() { return JSON.parse(localStorage.getItem('employees')) || []; }
+  function saveEmployees(emps) { localStorage.setItem('employees', JSON.stringify(emps)); }
+  function getReviews() { return JSON.parse(localStorage.getItem('reviews')) || []; }
+  function saveReviews(reviews) { localStorage.setItem('reviews', JSON.stringify(reviews)); }
+  function getNotifications() { return JSON.parse(localStorage.getItem('notifications')) || []; }
+  function saveNotifications(notifs) { localStorage.setItem('notifications', JSON.stringify(notifs)); }
+
+  function findUserByIIN(iin) { return getUsers().find(u => u.iin === iin); }
+
+  // ========== РЕГИСТРАЦИЯ ==========
+  function registerCitizen() {
+    const iin = document.getElementById('regIIN').value.trim();
+    const name = document.getElementById('regName').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    if (!iin || !name || !password) return alert("Заполните все поля");
+    if (iin.length !== 12 || !/^\d+$/.test(iin)) return alert("ИИН должен быть 12 цифр");
+    if (password.length < 3) return alert("Пароль минимум 3 символа");
+    const users = getUsers();
+    if (users.find(u => u.iin === iin)) return alert("ИИН уже зарегистрирован");
+    users.push({ iin, password, role: "citizen", name, avatar: "🏠" });
+    saveUsers(users);
+    alert("Регистрация успешна! Войдите.");
+    showLoginForm();
+    document.getElementById('iinInput').value = iin;
+    document.getElementById('passwordInput').value = '';
+  }
+
+  // ========== ВХОД ==========
+  let currentUser = null;
+  function loginByIIN() {
+    const iin = document.getElementById('iinInput').value.trim();
+    const pwd = document.getElementById('passwordInput').value.trim();
+    const user = getUsers().find(u => u.iin === iin && u.password === pwd);
+    if (!user) return alert("Неверный ИИН или пароль");
+    currentUser = user;
+    closeModal();
+    renderNavigation();
+    renderAuthBlock();
+    switchSection('home');
+  }
+
+  function logout() { currentUser = null; renderNavigation(); renderAuthBlock(); switchSection('home'); }
+
+  // ========== РЕНДЕР НАВИГАЦИИ ==========
+  function renderNavigation() {
+    const nav = document.getElementById('navMenu'); nav.innerHTML = '';
+    let items = [{ id: 'home', title: t('nav.home'), icon: 'fa-home' }];
+    if (currentUser) {
+      if (currentUser.role === 'akim') items.push({ id: 'akimat', title: t('nav.akimat'), icon: 'fa-landmark' });
+      if (currentUser.role === 'ispolnitel') items.push({ id: 'executors', title: t('nav.executors'), icon: 'fa-hard-hat' });
+      if (currentUser.role === 'citizen') items.push({ id: 'citizens', title: t('nav.citizens'), icon: 'fa-user-group' });
+      items.push({ id: 'profile', title: t('nav.profile'), icon: 'fa-id-card' });
+      items.push({ id: 'map', title: t('nav.map'), icon: 'fa-map' });
+    } else {
+      items.push({ id: 'map', title: t('nav.map'), icon: 'fa-map' });
+    }
+    items.forEach(item => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#';
+      a.className = 'nav-link';
+      a.dataset.section = item.id;
+      a.innerHTML = `<i class="fas ${item.icon}"></i> ${item.title}`;
+      a.onclick = e => { e.preventDefault(); switchSection(item.id); };
+      li.appendChild(a); nav.appendChild(li);
+    });
+  }
+
+  function renderAuthBlock() {
+    const auth = document.getElementById('authBlock');
+    const unreadCount = currentUser ? getNotifications().filter(n => {
+      if (n.to === 'all' || n.to === currentUser.role || (n.to === 'user' && n.userIin === currentUser.iin)) return !n.read;
+      return false;
+    }).length : 0;
+
+    const langSwitcher = `
+      <div class="lang-switcher">
+        <button class="lang-btn ${currentLang === 'ru' ? 'active' : ''}" onclick="setLanguage('ru')">${t('ru')}</button>
+        <button class="lang-btn ${currentLang === 'kk' ? 'active' : ''}" onclick="setLanguage('kk')">${t('kk')}</button>
+      </div>
+    `;
+
+    if (currentUser) {
+      auth.innerHTML = `
+        <div style="display:flex; align-items:center; gap:16px;">
+          ${langSwitcher}
+          <div class="notification-bell" onclick="openNotificationsModal()">
+            <i class="fas fa-bell" style="font-size:1.4rem;"></i>
+            ${unreadCount ? `<span class="notification-count">${unreadCount}</span>` : ''}
+          </div>
+          <div class="profile-badge">
+            <span>${currentUser.avatar}</span>
+            <div>
+              <span style="font-weight:800; font-size:0.95rem;">${currentUser.name}</span>
+              <span style="font-size:0.7rem; display:block;">${getRoleName(currentUser.role)}</span>
+            </div>
+            <button class="btn-outline btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+          </div>
         </div>
-        <div class="form-group">
-          <label><i class="fas fa-at"></i> E-mail (для ответа)</label>
-          <input type="email" placeholder="example@mail.kz">
+      `;
+    } else {
+      auth.innerHTML = `
+        <div style="display:flex; align-items:center; gap:16px;">
+          ${langSwitcher}
+          <button class="btn-outline btn" onclick="openModal()"><i class="fas fa-key"></i> ${t('button.login')}</button>
         </div>
-        <div class="form-group">
-          <label><i class="fas fa-tags"></i> Категория</label>
-          <select>
-            <option>Выберите проблему</option>
-            <option>Отопление / ГВС</option>
-            <option>Водоснабжение</option>
-            <option>Электричество</option>
-            <option>Дороги и тротуары</option>
-            <option>Вывоз мусора</option>
-            <option>Освещение</option>
-            <option>Другое (ЖКХ)</option>
+      `;
+    }
+  }
+
+  function getRoleName(role) { 
+    const roles = { akim: t('akim'), ispolnitel: t('ispolnitel'), citizen: t('citizen') };
+    return roles[role] || role; 
+  }
+
+  // ========== ПЕРЕКЛЮЧЕНИЕ РАЗДЕЛОВ ==========
+  function switchSection(sectionId) {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(l => l.dataset.section === sectionId);
+    if (activeLink) activeLink.classList.add('active');
+
+    if (!currentUser && ['akimat','executors','citizens','profile'].includes(sectionId)) sectionId = 'home';
+    if (currentUser) {
+      if (sectionId === 'akimat' && currentUser.role !== 'akim') sectionId = 'home';
+      if (sectionId === 'executors' && currentUser.role !== 'ispolnitel') sectionId = 'home';
+      if (sectionId === 'citizens' && currentUser.role !== 'citizen') sectionId = 'home';
+    }
+    const content = document.getElementById('dynamicContent');
+    if (sectionId === 'home') content.innerHTML = renderHome();
+    else if (sectionId === 'profile') content.innerHTML = renderProfile();
+    else if (sectionId === 'akimat') content.innerHTML = renderAkimat();
+    else if (sectionId === 'executors') content.innerHTML = renderExecutors();
+    else if (sectionId === 'citizens') content.innerHTML = renderCitizens();
+    else if (sectionId === 'map') content.innerHTML = renderMap();
+  }
+
+  // ========== РАЗДЕЛЫ КОНТЕНТА ==========
+  function renderHome() {
+    return `
+      <div class="section-header"><i class="fas fa-city"></i><h2>${t('home.title')}</h2></div>
+      <div class="grid-4">
+        <div class="card"><div class="stat-number">350 191</div><div>${t('home.population')}</div></div>
+        <div class="card"><div class="stat-number">47</div><div>${t('home.routes')}</div></div>
+        <div class="card"><div class="stat-number">12</div><div>${t('home.clinics')}</div></div>
+        <div class="card"><div class="stat-number">${getReviews().length}</div><div>${t('home.reviews')}</div></div>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="card-title"><i class="fas fa-bus"></i> ${t('home.transport')}</div><ul class="list-menu"><li>${t('home.route1')}</li><li>${t('home.route2')}</li></ul></div>
+        <div class="card"><div class="card-title"><i class="fas fa-hospital"></i> ${t('home.healthcare')}</div><ul class="list-menu"><li>${t('home.hotline')}</li><li>${t('home.doctor')}</li></ul></div>
+        <div class="card"><div class="card-title"><i class="fas fa-calendar"></i> ${t('home.events')}</div><ul class="list-menu"><li>${t('home.event1')}</li><li>${t('home.event2')}</li><li>${t('home.event3')}</li></ul></div>
+      </div>
+      ${!currentUser ? `<div class="card" style="margin-top:20px;"><i class="fas fa-id-card"></i> ${t('home.loginHint')}</div>` : ''}
+    `;
+  }
+
+  function renderProfile() {
+    if (!currentUser) return '';
+    const nots = getNotifications().filter(n => {
+      if (n.to === 'all') return true;
+      if (n.to === currentUser.role) return true;
+      if (n.to === 'user' && n.userIin === currentUser.iin) return true;
+      return false;
+    }).slice(-5);
+    return `
+      <div class="section-header"><i class="fas fa-id-card"></i><h2>${t('profile.title')}</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><i class="fas fa-user"></i> ${t('profile.myData')}</div>
+          <ul class="list-menu">
+            <li><i class="fas fa-hashtag"></i> ${t('profile.iin')}: ${currentUser.iin}</li>
+            <li><i class="fas fa-user"></i> ${t('profile.fullName')}: ${currentUser.name}</li>
+            <li><i class="fas fa-tag"></i> ${t('profile.role')}: ${getRoleName(currentUser.role)}</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="fas fa-bell"></i> ${t('profile.notifications')}</div>
+          ${nots.length ? nots.map(n => `<p style="border-bottom:1px solid #eee; padding:8px 0;"><i class="fas fa-circle" style="color:${n.read ? '#aaa' : '#f5c542'}; font-size:0.6rem;"></i> ${n.text}</p>`).join('') : `<p>${t('profile.noNotifications')}</p>`}
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== АКИМАТ: УПРАВЛЕНИЕ СОТРУДНИКАМИ, УВЕДОМЛЕНИЯ ==========
+  function renderAkimat() {
+    const employees = getEmployees();
+    return `
+      <div class="section-header"><i class="fas fa-landmark"></i><h2>${t('akimat.title')}</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><i class="fas fa-users"></i> ${t('akimat.employees')}</div>
+          <div style="max-height:300px; overflow-y:auto;">
+            ${employees.filter(e => e.status === 'active').map(e => `
+              <div class="employee-row">
+                <div><strong>${e.name}</strong><br><small>${t('akimat.position')}: ${e.position} · ${t('akimat.rating')}: ${e.rating || '—'}</small></div>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn-outline btn-sm" onclick="promoteEmployee(${e.id})"><i class="fas fa-arrow-up"></i> ${t('akimat.promote')}</button>
+                  <button class="btn-outline btn-sm" onclick="demoteEmployee(${e.id})"><i class="fas fa-arrow-down"></i> ${t('akimat.demote')}</button>
+                  <button class="btn-outline btn-sm" style="border-color:#a00; color:#a00;" onclick="fireEmployee(${e.id})"><i class="fas fa-user-minus"></i> ${t('akimat.fire')}</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="btn" style="margin-top:20px;" onclick="addEmployee()"><i class="fas fa-user-plus"></i> ${t('akimat.addEmployee')}</button>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="fas fa-bullhorn"></i> ${t('akimat.broadcast')}</div>
+          <textarea id="akimMessage" rows="3" style="width:100%; padding:12px; border-radius:16px; border:1px solid #cde0ea; margin-bottom:16px;" placeholder="${t('akimat.messagePlaceholder')}"></textarea>
+          <button class="btn" onclick="sendAkimNotification()"><i class="fas fa-paper-plane"></i> ${t('akimat.sendToAll')}</button>
+          <hr style="margin:24px 0;">
+          <div class="card-title"><i class="fas fa-check-circle"></i> ${t('akimat.moderation')}</div>
+          <button class="btn-outline" onclick="openReviewModeration()">${t('akimat.goToModeration')}</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Функции управления сотрудниками
+  window.promoteEmployee = function(id) {
+    let emps = getEmployees();
+    let emp = emps.find(e => e.id === id);
+    if (emp) { emp.position = emp.position.includes('Бригадир') ? 'Старший бригадир' : 'Бригадир'; saveEmployees(emps); switchSection('akimat'); }
+  }
+  window.demoteEmployee = function(id) {
+    let emps = getEmployees();
+    let emp = emps.find(e => e.id === id);
+    if (emp) { emp.position = emp.position.includes('Рабочий') ? 'Стажёр' : 'Рабочий'; saveEmployees(emps); switchSection('akimat'); }
+  }
+  window.fireEmployee = function(id) {
+    let emps = getEmployees();
+    let emp = emps.find(e => e.id === id);
+    if (emp) { emp.status = 'inactive'; saveEmployees(emps); switchSection('akimat'); }
+  }
+  window.addEmployee = function() {
+    let name = prompt("Введите ФИО нового сотрудника:");
+    if (!name) return;
+    let emps = getEmployees();
+    let newId = emps.length ? Math.max(...emps.map(e=>e.id)) + 1 : 1;
+    emps.push({ id: newId, name, position: "Стажёр", status: "active", rating: 3.0 });
+    saveEmployees(emps);
+    switchSection('akimat');
+  }
+
+  // Отправка уведомления от акима всем жителям
+  window.sendAkimNotification = function() {
+    let msg = document.getElementById('akimMessage')?.value.trim();
+    if (!msg) return alert("Введите текст");
+    let nots = getNotifications();
+    nots.push({
+      id: Date.now(),
+      from: `Аким ${currentUser.name}`,
+      to: 'citizen',
+      role: 'citizen',
+      text: msg,
+      date: new Date().toLocaleDateString(),
+      read: false
+    });
+    saveNotifications(nots);
+    alert("Обращение отправлено всем жителям!");
+    document.getElementById('akimMessage').value = '';
+    renderAuthBlock();
+  }
+
+  // ========== ИСПОЛНИТЕЛИ ==========
+  function renderExecutors() {
+    return `
+      <div class="section-header"><i class="fas fa-hard-hat"></i><h2>${t('executors.title')}</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><i class="fas fa-comment-dots"></i> ${t('executors.respond')}</div>
+          <select id="reviewSelect" class="fake-input" style="width:100%; margin-bottom:16px;">
+            <option value="">${t('executors.selectReview')}</option>
+            ${getReviews().filter(r => r.status === 'active').map(r => `<option value="${r.id}">${r.userName}: ${r.text.substring(0,30)}</option>`).join('')}
           </select>
+          <textarea id="executorResponse" rows="2" style="width:100%; padding:12px; border-radius:16px; border:1px solid #cde0ea; margin-bottom:16px;" placeholder="${t('executors.responsePlaceholder')}"></textarea>
+          <button class="btn" onclick="sendExecutorResponse()"><i class="fas fa-reply"></i> ${t('executors.sendResponse')}</button>
         </div>
-        <div class="form-group">
-          <label><i class="fas fa-map-pin"></i> Адрес / ориентир</label>
-          <input type="text" placeholder="ул. Пушкина, д. 25, подъезд 3">
+        <div class="card">
+          <div class="card-title"><i class="fas fa-user-tie"></i> ${t('executors.appeal')}</div>
+          <textarea id="executorToAkim" rows="3" style="width:100%; padding:12px; border-radius:16px; border:1px solid #cde0ea; margin-bottom:16px;" placeholder="${t('executors.appealPlaceholder')}"></textarea>
+          <button class="btn" onclick="sendToAkim()"><i class="fas fa-paper-plane"></i> ${t('executors.sendToAkim')}</button>
         </div>
-        <div class="form-group full-width">
-          <label><i class="fas fa-comment"></i> Текст обращения</label>
-          <textarea placeholder="Подробно опишите проблему, укажите дату, исполнителя (если знаете)..."></textarea>
+      </div>
+    `;
+  }
+
+  window.sendExecutorResponse = function() {
+    let reviewId = document.getElementById('reviewSelect')?.value;
+    let text = document.getElementById('executorResponse')?.value.trim();
+    if (!reviewId || !text) return alert("Выберите заявку и введите ответ");
+    let review = getReviews().find(r => r.id == reviewId);
+    if (!review) return;
+    let nots = getNotifications();
+    nots.push({
+      id: Date.now(),
+      from: `Исполнитель ${currentUser.name}`,
+      to: 'user',
+      userIin: review.userId,
+      text: `Ответ на ваш отзыв: ${text}`,
+      date: new Date().toLocaleDateString(),
+      read: false
+    });
+    saveNotifications(nots);
+    alert("Ответ отправлен жителю!");
+  }
+
+  window.sendToAkim = function() {
+    let text = document.getElementById('executorToAkim')?.value.trim();
+    if (!text) return alert("Введите текст");
+    let nots = getNotifications();
+    nots.push({
+      id: Date.now(),
+      from: `Исполнитель ${currentUser.name}`,
+      to: 'role',
+      role: 'akim',
+      text: `Обращение от исполнителя: ${text}`,
+      date: new Date().toLocaleDateString(),
+      read: false
+    });
+    saveNotifications(nots);
+    alert("Обращение отправлено акиму!");
+    document.getElementById('executorToAkim').value = '';
+  }
+
+  // ========== ЖИТЕЛИ ==========
+  function renderCitizens() {
+    return `
+      <div class="section-header"><i class="fas fa-user-group"></i><h2>${t('citizens.title')}</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><i class="fas fa-map-marked-alt"></i> ${t('citizens.addReview')}</div>
+          <button class="btn" onclick="openReviewModal()"><i class="fas fa-plus-circle"></i> ${t('citizens.addButton')}</button>
         </div>
-        <div class="form-group full-width">
-          <label style="display: flex; gap: 12px; align-items: center;">
-            <i class="fas fa-paperclip"></i> Прикрепить фото/файл (до 10 МБ)
-          </label>
-          <div style="border: 2px dashed #cbd5e0; padding: 20px; text-align: center; border-radius: 20px; background: #f1f9fc;">
-            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--primary);"></i>
-            <p style="color: #3a5e7a;">Перетащите файл сюда или <span style="color: var(--primary); font-weight: 700;">выберите</span></p>
+        <div class="card">
+          <div class="card-title"><i class="fas fa-clock"></i> ${t('citizens.myRequests')}</div>
+          ${getReviews().filter(r => r.userId === currentUser.iin).map(r => `
+            <div style="border-bottom:1px solid #eee; padding:12px 0;">
+              <p><strong>${r.text}</strong> <span class="badge">⭐ ${r.rating}</span></p>
+              <small>${t('citizens.status')}: ${r.status} | ${t('citizens.points')}: ${r.points}</small>
+            </div>
+          `).join('') || `<p>${t('citizens.noRequests')}</p>`}
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== КАРТА ОТЗЫВОВ ==========
+  function renderMap() {
+    const reviews = getReviews().filter(r => r.status === 'active');
+    return `
+      <div class="section-header"><i class="fas fa-map"></i><h2>${t('map.title')}</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">${t('map.allReviews')}</div>
+          ${reviews.length ? reviews.map(r => `
+            <div style="border-bottom:1px solid #eee; padding:16px 0;">
+              <div style="display:flex; justify-content:space-between;">
+                <strong>${r.userName}</strong> <span class="badge">📍 ${r.lat}, ${r.lng}</span>
+              </div>
+              <p>${r.text}</p>
+              ${r.photo ? '<i class="fas fa-image"></i> ' + t('map.photoAttached') : ''}
+              <div style="display:flex; gap:16px; margin-top:8px; align-items:center;">
+                <div class="rating-stars">
+                  ${[1,2,3,4,5].map(i => `<i class="fas fa-star${i <= r.rating ? '' : '-regular'}" style="color:${i <= r.rating ? '#ffb703' : '#ccc'};"></i>`).join('')}
+                </div>
+                <span>${t('map.points')}: ${r.points || 0}</span>
+                ${currentUser?.role === 'akim' ? `
+                  <button class="btn-outline btn-sm" onclick="approveReview(${r.id})"><i class="fas fa-check"></i> ${t('map.truthful')}</button>
+                  <button class="btn-outline btn-sm" style="border-color:#a00; color:#a00;" onclick="deleteReview(${r.id})"><i class="fas fa-trash"></i> ${t('map.delete')}</button>
+                ` : ''}
+                ${currentUser?.role === 'citizen' && currentUser.iin !== r.userId ? `
+                  <button class="btn-outline btn-sm" onclick="rateReview(${r.id})"><i class="fas fa-thumbs-up"></i> ${t('map.rate')}</button>
+                ` : ''}
+              </div>
+            </div>
+          `).join('') : `<p>${t('map.noReviews')}</p>`}
+        </div>
+        <div class="card">
+          <div class="card-title">Карта (интерактивная схема)</div>
+          <div class="mock-map" style="height:300px; display:flex; flex-direction:column; justify-content:center;" onclick="currentUser ? openReviewModal() : openModal()">
+            <i class="fas fa-map-marked-alt" style="font-size:3rem;"></i>
+            <p style="margin-top:16px;">${t('map.clickToAdd')}</p>
           </div>
         </div>
       </div>
-      <div style="display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap;">
-        <button class="btn btn-accent" style="font-size: 1.1rem; padding: 16px 42px;"><i class="fas fa-paper-plane"></i> Отправить в акимат и исполнителю</button>
-        <button class="btn-outline btn" style="font-size: 1.1rem;"><i class="fas fa-eye"></i> Предварительный просмотр</button>
-      </div>
-      <p style="margin-top: 24px; color: #476c85; background: #f2f9fc; padding: 12px; border-radius: 20px;">
-        <i class="fas fa-shield-alt"></i> Все обращения регистрируются в системе государственной программы. Ответ исполнителя или акимата поступит на e-mail и в личный кабинет.
-      </p>
-    </section>
-  </main>
+    `;
+  }
 
-  <!-- ПОДВАЛ -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo"><i class="fas fa-leaf"></i> EcoKaz. <span style="font-size: 1rem; color: #003f5c;">госпрограмма</span></div>
-          <p class="footer-about">Цифровая экосистема управления хозяйством — официальная платформа обратной связи с коммунальными службами и акиматом в рамках государственной программы «Цифровой Казахстан».</p>
+  // ========== ФУНКЦИИ ДЛЯ ОТЗЫВОВ ==========
+  let selectedLat = null, selectedLng = null;
+  window.openReviewModal = function() {
+    if (!currentUser) return openModal();
+    document.getElementById('reviewModal').classList.add('active');
+    document.getElementById('selectedLocationText').innerHTML = t('map.selectLocation');
+  }
+  window.closeReviewModal = function() { document.getElementById('reviewModal').classList.remove('active'); }
+  window.selectRandomLocation = function() {
+    selectedLat = (50.40 + Math.random()*0.1).toFixed(3);
+    selectedLng = (80.20 + Math.random()*0.1).toFixed(3);
+    document.getElementById('selectedLocationText').innerHTML = `📍 ${selectedLat}, ${selectedLng}`;
+    document.getElementById('reviewLat').value = selectedLat;
+    document.getElementById('reviewLng').value = selectedLng;
+  }
+  window.submitReview = function() {
+    if (!currentUser) return alert("Войдите");
+    let text = document.getElementById('reviewText').value.trim();
+    let lat = document.getElementById('reviewLat').value;
+    let lng = document.getElementById('reviewLng').value;
+    if (!text || !lat) return alert("Выберите место и напишите текст");
+    let photoInput = document.getElementById('reviewPhoto');
+    let photo = null;
+    if (photoInput.files[0]) {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        addReviewToDB(text, lat, lng, e.target.result);
+      };
+      reader.readAsDataURL(photoInput.files[0]);
+    } else {
+      addReviewToDB(text, lat, lng, null);
+    }
+  }
+  function addReviewToDB(text, lat, lng, photoBase64) {
+    let reviews = getReviews();
+    let newId = reviews.length ? Math.max(...reviews.map(r=>r.id)) + 1 : 1;
+    reviews.push({
+      id: newId,
+      userId: currentUser.iin,
+      userName: currentUser.name,
+      lat: parseFloat(lat), lng: parseFloat(lng),
+      text, photo: photoBase64,
+      rating: 0, points: 0,
+      status: 'active',
+      date: new Date().toLocaleDateString()
+    });
+    saveReviews(reviews);
+    // Уведомление акиму и исполнителям
+    let nots = getNotifications();
+    nots.push({ id: Date.now(), from: `Житель ${currentUser.name}`, to: 'role', role: 'akim', text: `Новый отзыв: ${text}`, date: new Date().toLocaleDateString(), read: false });
+    nots.push({ id: Date.now()+1, from: `Житель ${currentUser.name}`, to: 'role', role: 'ispolnitel', text: `Новый отзыв: ${text}`, date: new Date().toLocaleDateString(), read: false });
+    saveNotifications(nots);
+    alert("Отзыв добавлен!");
+    closeReviewModal();
+    if (document.querySelector('.nav-link.active')?.dataset.section === 'map') switchSection('map');
+  }
+
+  // Модерация отзывов (аким)
+  window.approveReview = function(id) {
+    let reviews = getReviews();
+    let rev = reviews.find(r => r.id === id);
+    if (rev) { rev.points = (rev.points || 0) + 10; rev.rating = Math.min(5, rev.rating + 1); saveReviews(reviews); switchSection('map'); }
+  }
+  window.deleteReview = function(id) {
+    let reviews = getReviews().filter(r => r.id !== id);
+    saveReviews(reviews); switchSection('map');
+  }
+  window.rateReview = function(id) {
+    let reviews = getReviews();
+    let rev = reviews.find(r => r.id === id);
+    if (rev) { rev.rating = Math.min(5, rev.rating + 1); saveReviews(reviews); switchSection('map'); }
+  }
+
+  // ========== УВЕДОМЛЕНИЯ ==========
+  window.openNotificationsModal = function() {
+    let modal = document.getElementById('notificationsModal');
+    let listDiv = document.getElementById('notificationsList');
+    let nots = getNotifications().filter(n => {
+      if (n.to === 'all') return true;
+      if (n.to === 'role' && n.role === currentUser?.role) return true;
+      if (n.to === 'user' && n.userIin === currentUser?.iin) return true;
+      if (n.to === 'citizen' && currentUser?.role === 'citizen') return true;
+      return false;
+    }).sort((a,b)=>b.id - a.id);
+    listDiv.innerHTML = nots.length ? nots.map(n => `
+      <div style="padding:16px; background:${n.read ? '#f5faff' : '#fffbe6'}; border-radius:16px;">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>${n.from}</strong> <span style="color:#6c8fa0;">${n.date}</span>
         </div>
-        <div class="footer-links">
-          <h5>Гражданам</h5>
-          <ul>
-            <li><a href="#">Оставить отзыв</a></li>
-            <li><a href="#">Статус обращения</a></li>
-            <li><a href="#">Рейтинг УК</a></li>
-            <li><a href="#">Памятка ЖКХ</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h5>Исполнителям</h5>
-          <ul>
-            <li><a href="#">Войти в кабинет</a></li>
-            <li><a href="#">Реестр предписаний</a></li>
-            <li><a href="#">Аналитика</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h5>Акимат</h5>
-          <ul>
-            <li><a href="#"><i class="fas fa-map-marker-alt"></i> ул. Достык, 11, Астана</a></li>
-            <li><a href="#"><i class="fas fa-phone"></i> 8 (7172) 55-66-77</a></li>
-            <li><a href="#"><i class="fas fa-envelope"></i> eco.akimat@egov.kz</a></li>
-            <li><a href="#"><i class="fas fa-clock"></i> Пн-Пт 09:00–18:30</a></li>
-          </ul>
-        </div>
+        <p style="margin-top:8px;">${n.text}</p>
+        <button class="btn-outline btn-sm" style="margin-top:8px;" onclick="markNotificationRead(${n.id})">${t('notifications.markRead')}</button>
       </div>
-      <div class="footer-bottom">
-        <p>© 2026 Цифровая экосистема управления хозяйством. В рамках государственной программы. Все права защищены.</p>
-        <p style="margin-top: 12px; font-size: 0.9rem;"><i class="fas fa-dove"></i> При поддержке акимата и Министерства цифрового развития</p>
-      </div>
-    </div>
-  </footer>
+    `).join('') : `<p>${t('notifications.empty')}</p>`;
+    modal.classList.add('active');
+    // пометить все как прочитанные при открытии (упрощённо)
+    nots.forEach(n => { n.read = true; });
+    saveNotifications(getNotifications());
+    renderAuthBlock();
+  }
+  window.markNotificationRead = function(id) {
+    let nots = getNotifications();
+    let n = nots.find(n => n.id === id);
+    if (n) n.read = true;
+    saveNotifications(nots);
+    openNotificationsModal();
+    renderAuthBlock();
+  }
+  window.closeNotificationsModal = function() { document.getElementById('notificationsModal').classList.remove('active'); }
+
+  // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ МОДАЛОК ==========
+  function openModal() { 
+    document.getElementById('authModal').classList.add('active'); 
+    showLoginForm();
+    updateModalTitles();
+  }
+  function closeModal() { document.getElementById('authModal').classList.remove('active'); }
+  function showLoginForm() { 
+    document.getElementById('loginForm').style.display='block'; 
+    document.getElementById('registerForm').style.display='none'; 
+    document.getElementById('loginTabBtn').className='btn'; 
+    document.getElementById('registerTabBtn').className='btn-outline';
+    document.getElementById('loginTabBtn').textContent = t('modal.login');
+    document.getElementById('registerTabBtn').textContent = t('modal.register');
+    document.getElementById('iinInput').placeholder = t('modal.iin');
+    document.getElementById('passwordInput').placeholder = t('modal.password');
+  }
+  function showRegisterForm() { 
+    document.getElementById('loginForm').style.display='none'; 
+    document.getElementById('registerForm').style.display='block'; 
+    document.getElementById('registerTabBtn').className='btn'; 
+    document.getElementById('loginTabBtn').className='btn-outline';
+    document.getElementById('loginTabBtn').textContent = t('modal.login');
+    document.getElementById('registerTabBtn').textContent = t('modal.register');
+    document.getElementById('regIIN').placeholder = t('modal.iin');
+    document.getElementById('regName').placeholder = t('modal.fullName');
+    document.getElementById('regPassword').placeholder = t('modal.password');
+  }
+  window.openReviewModeration = function() { switchSection('map'); closeNotificationsModal(); }
+
+  // ========== ИНИЦИАЛИЗАЦИЯ ==========
+  initDatabase();
+  window.onload = function() {
+    renderNavigation();
+    renderAuthBlock();
+    switchSection('home');
+    updateModalTitles();
+    // Обновляем плейсхолдеры модалок
+    showLoginForm(); // чтобы установить правильные плейсхолдеры при загрузке
+  };
+
+  // Экспорт глобальных функций
+  window.setLanguage = setLanguage;
+  window.openModal = openModal; window.closeModal = closeModal; window.loginByIIN = loginByIIN; window.logout = logout; window.switchSection = switchSection; window.showLoginForm = showLoginForm; window.showRegisterForm = showRegisterForm; window.registerCitizen = registerCitizen;
+  window.openReviewModal = openReviewModal; window.closeReviewModal = closeReviewModal; window.selectRandomLocation = selectRandomLocation; window.submitReview = submitReview;
+  window.openNotificationsModal = openNotificationsModal; window.closeNotificationsModal = closeNotificationsModal;
+</script>
+
 </body>
-
 </html>
