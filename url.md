@@ -1,1 +1,1 @@
-https://uddeee.netlify.app/
+udddeee.netlify.app
